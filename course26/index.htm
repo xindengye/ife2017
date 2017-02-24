@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>自定义网页右键菜单</title>
+	<meta charset="utf-8">
+</head>
+<style type="text/css">
+	.block{
+		width: auto;
+		height: 100px;
+		margin: 20px 20px;
+		background-color: #F5F5F5;
+		border-radius: 15px;
+		text-align: center;
+		line-height: 100px;
+		border: 1px solid  #E1E1E1;
+	}
+	#menu{
+		width: 200px;
+		height: auto;
+		border: 1px solid  #E1E1E1;
+		border-radius: 5px;
+		position: absolute;
+		z-index: 100;
+		overflow: hidden;
+		background-color: white;
+		visibility:hidden;
+	}
+	.option{
+		height: 35px;
+		text-align: center;
+		line-height: 35px;
+	}
+</style>
+<script>
+function hide(){
+	if(isShow==false) return;
+	menu.style.visibility="hidden";
+	isShow=false;
+}
+function show(e){
+	var x=e.clientX;
+	var y=e.clientY;
+	var clientWidth=document.body.clientWidth || document.documentElement.clientWidth;
+	var clientHeight=document.body.clientHeight || document.documentElement.clientHeight;
+	(x+200>clientWidth)?x=x-200:x;
+	(y+72>clientHeight)?y=y-72:x;
+	menu.style.left=x+"px";
+	menu.style.top=y+"px";
+	menu.style.visibility="visible";
+	isShow=true;
+}
+function main(){
+	var isShow=false;
+	var menu=document.getElementById("menu");
+	var op1=document.getElementById("block1");
+	var op2=document.getElementById("block2");
+	op2.oncontextmenu=function(){
+		return false;
+	}
+	op1.oncontextmenu=function(e){
+		show(e);
+		return false;
+	}
+	document.onclick=function(){
+		hide();
+	}
+}
+window.onload=main;
+</script>
+<body>
+	<div class="block" id="block1">右键这里会有一个菜单</div>
+	<div class="block" id="block2">右键这里什么都没有</div>
+	<div id="menu">
+		<a href="#"><div class="option" id="option1">Menu Item 1</div></a>
+		<a href="#"><div class="option" id="option2">Menu Item 2</div></a>
+	</div>
+</body>
+</html>
